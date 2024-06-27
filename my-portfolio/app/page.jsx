@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import Script from 'next/script';
 import LandingGradient from "@/components/LandingGradient";
 import PageTransition from "@/components/PageTransition";
+import TextTyper from "@/components/TextTyper";
 
 export default function Home() {
     const { theme} = useTheme();
@@ -13,6 +14,25 @@ export default function Home() {
 
     useEffect(() => {
         setMounted(true);
+
+        function greeting_message(target, message, speed) {
+            let i = 0;
+            const targetElement = document.getElementById(target);
+            targetElement.innerHTML = '';
+            const interval = setInterval(() => {
+                if (i < message.length) {
+                    targetElement.innerHTML += message.charAt(i);
+                    i++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, speed);
+        }
+
+        setTimeout(() => {
+            greeting_message("mainHeaderMessage", "Kevin Kraatz", 175);
+        }, 1000);
+
     }, []);
 
     if (!mounted) {
@@ -34,15 +54,12 @@ export default function Home() {
                 <LandingGradient/>
                 <div className="relative z-20">
                     <div className="relative h-screen flex items-center justify-center">
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 2 }}
+                        <div
                             className={`text-center ${theme === 'dark' ? 'text-white' : 'text-black'}`}
                         >
                             <h2 id="mainHeader" className="text-6xl font-bold mb-4">Kevin</h2>
-                            <h1 id="mainHeaderMessage" className="text-xl">Scroll down to see my projects</h1>
-                        </motion.div>
+                            <h1 id="mainHeaderMessage" className="text-xl" style={{ minHeight: '10em' }}></h1>
+                        </div>
                     </div>
                 </div>
             </section>

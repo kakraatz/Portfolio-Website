@@ -23,7 +23,7 @@ export default function ThemeSwitcher() {
 
   return (
     <button
-      className={`relative flex items-center justify-center w-14 min-h-14 rounded-lg overflow-hidden hover:bg-stone-600 hover:bg-opacity-40`}
+      className="relative flex items-center justify-center w-14 min-h-14 rounded-lg overflow-hidden hover:bg-stone-600 hover:bg-opacity-40"
       style={{ transition: 'background-color 0.3s ease' }}
       onClick={toggleTheme}
     >
