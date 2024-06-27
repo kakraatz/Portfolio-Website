@@ -12,7 +12,9 @@ export default function Header() {
         <div className="bg-transparent p-4 flex flex-col items-center">
             <HeaderLogo />
             <NavbarExpander onClick={() => setNavOpen(!navOpen)} isOpen={navOpen} />
-            <Navbar isOpen={navOpen} />
+            <div className="relative w-full">
+                <Navbar isOpen={navOpen} />
+            </div>
         </div>
     );
 }
