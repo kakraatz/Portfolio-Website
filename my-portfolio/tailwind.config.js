@@ -8,12 +8,28 @@ module.exports = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}"
   ],
-  darkMode: 'class',
   theme: {
     extend: {
       backgroundImage: {
       },
     },
   },
-  plugins: [nextui()],
+  plugins: [
+      nextui({
+            themes: {
+              light: {
+                colors: {
+                  background: "#FFFFFF",
+                  foreground: "#000000",
+                },
+              },
+              dark: {
+                colors: {
+                  background: "#000000",
+                  foreground: "#FFFFFF",
+                },
+              },
+            },
+          },
+      )],
 };

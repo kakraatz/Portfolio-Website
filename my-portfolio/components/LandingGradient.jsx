@@ -12,18 +12,18 @@ export default function LandingGradient() {
   if (!mounted) {
     // Render a fallback gradient that matches the default theme
     return (
-      <div className="absolute inset-0 z-10">
-        <div className="absolute inset-0 opacity-75 bg-gradient-to-b from-transparent to-gray-900">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-stone-950 to-15%">
         </div>
       </div>
     );
   }
 
-  const gradientClass = theme === 'dark' ? 'from-transparent to-gray-900' : 'from-transparent to-white';
+  const gradientClass = theme === 'dark' ? 'from-stone-950 to-15%' : 'from-white to-15%';
 
   return (
-    <div className="absolute inset-0 z-10">
-      <div className={`absolute inset-0 opacity-75 bg-gradient-to-b ${gradientClass}`}>
+    <div className="absolute inset-0 pointer-events-none">
+      <div className={`absolute inset-0 pointer-events-none bg-gradient-to-t ${gradientClass}`}>
       </div>
     </div>
   );

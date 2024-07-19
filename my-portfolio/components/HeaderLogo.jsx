@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
+import LinkChanger from "./LinkChanger";
+import LogoLink from "./LogoLink";
 
 export default function HeaderLogo() {
     const { theme, resolvedTheme } = useTheme();
@@ -12,13 +14,9 @@ export default function HeaderLogo() {
         setMounted(true);
     }, []);
 
-    // Only render the SVG if the component has mounted
     return (
-        // TODO: Need to set up an anchor point that page uses when on home page, only want to use Link when on contact or project pages
-        <Link href="/">
-            <button
-                className={`relative flex items-center justify-center w-14 min-h-14 rounded-lg overflow-hidden hover:bg-stone-600 hover:bg-opacity-40`}
-                style={{ transition: 'background-color 0.3s ease' }}>
+        <LogoLink href="/">
+            <button className="relative flex items-center justify-center w-14 min-h-14 rounded-lg overflow-hidden hover:bg-stone-600 hover:bg-opacity-40">
                 <div className="absolute inset-0 flex items-center justify-center">
                     {mounted && (
                         <svg viewBox="0 0 74 78" className={`w-10 h-10 ${resolvedTheme === 'dark' ? 'fill-white' : 'fill-black'}`}>
@@ -28,6 +26,6 @@ export default function HeaderLogo() {
                     )}
                 </div>
             </button>
-        </Link>
+        </LogoLink>
     );
 }

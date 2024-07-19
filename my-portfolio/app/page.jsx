@@ -5,65 +5,68 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Script from 'next/script';
 import LandingGradient from "@/components/LandingGradient";
-import PageTransition from "@/components/PageTransition";
+import PageTransition from "@/components/PageTransition"
 import TextTyper from "@/components/TextTyper";
+import LandingScene from "@/components/LandingScene";
+import ParticleGlobe from "@/components/ParticleGlobe"
 
 export default function Home() {
-    const { theme} = useTheme();
+    const { theme } = useTheme();
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        setMounted(true);
-
-        function greeting_message(target, message, speed) {
-            let i = 0;
-            const targetElement = document.getElementById(target);
-            targetElement.innerHTML = '';
-            const interval = setInterval(() => {
-                if (i < message.length) {
-                    targetElement.innerHTML += message.charAt(i);
-                    i++;
-                } else {
-                    clearInterval(interval);
-                }
-            }, speed);
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+          document.documentElement.classList.remove('light');
+        } else {
+          document.documentElement.classList.add('light');
+          document.documentElement.classList.remove('dark');
         }
+    }, [theme]);
 
-        setTimeout(() => {
-            greeting_message("mainHeaderMessage", "Kevin Kraatz", 175);
-        }, 1000);
-
+    useEffect(() => {
+        setMounted(true);
     }, []);
 
     if (!mounted) {
         return null; // or you can return a loader/spinner here
     }
 
+    // <video
+    //                         className="absolute inset-0 w-full h-full object-cover"
+    //                         src="/wind.mp4"
+    //                         autoPlay
+    //                         loop
+    //                         muted
+    //                     ></video>
+    // style={{ filter: theme === 'light' ? 'invert(1)' : 'none' }}
     return (
         <div className="relative">
-            <PageTransition>
-            <section className="relative">
-                <video
-                    className="absolute inset-0 w-full h-full object-cover"
-                    src="/waves.mp4"
-                    autoPlay
-                    loop
-                    muted
-                    style={{ filter: theme === 'light' ? 'invert(1)' : 'none' }}
-                ></video>
-                <LandingGradient/>
-                <div className="relative z-20">
-                    <div className="relative h-screen flex items-center justify-center">
-                        <div
-                            className={`text-center ${theme === 'dark' ? 'text-white' : 'text-black'}`}
-                        >
-                            <h2 id="mainHeader" className="text-6xl font-bold mb-4">Kevin</h2>
-                            <h1 id="mainHeaderMessage" className="text-xl" style={{ minHeight: '10em' }}></h1>
+            <section className={`relative ${theme === 'dark' ? 'bg-stone-950 text-white' : 'bg-white text-black'}`}>
+                <a id="/"/>
+                <div className="relative h-screen flex items-center justify-center">
+                    <PageTransition>
+                        <LandingScene/>
+                        <LandingGradient/>
+                        <div className="relative bottom-80 flex items-center justify-center pointer-events-none">
+                            <div className="relative flex items-center gap-20 w-100 pt-3">
+                                <h1 className="text-7xl font-bold">Kevin<br/>Kraatz</h1>
+                                <p className="text-3xl">Hello World.</p>
+                            </div>
                         </div>
-                    </div>
+                    </PageTransition>
                 </div>
             </section>
-            </PageTransition>
+            <section className={`relative ${theme === 'dark' ? 'bg-stone-950 text-white' : 'bg-white text-black'}`}>
+                <a id="projects"/>
+                <div className="relative h-screen z-1 flex items-center justify-center">
+                </div>
+            </section>
+            <section className={`relative ${theme === 'dark' ? 'bg-stone-950 text-white' : 'bg-white text-black'}`}>
+                <a id="about"/>
+                <div className="relative h-screen z-1 flex items-center justify-center">
+                </div>
+            </section>
         </div>
     );
 }
