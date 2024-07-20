@@ -12,6 +12,7 @@ const LandingScene = () => {
   const sceneRef = useRef(null);
   const rendererRef = useRef(null);
   const composerRef = useRef(null);
+  const earthMaterialRef = useRef(null);
 
   useEffect(() => {
     const scene = new THREE.Scene();
@@ -30,18 +31,19 @@ const LandingScene = () => {
     if (mountRef.current) {
       mountRef.current.appendChild(renderer.domElement);
     }
-
+    /*
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.5;
     controls.enableZoom = false;
     controls.rotateSpeed = 0.3;
+    */
 
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.01);
     scene.add(ambientLight);
 
     const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
-    directionalLight.position.set(5, 0.5, -1);
+    directionalLight.position.set(3, 0.5, -1);
     scene.add(directionalLight);
 
     const globeGroup = new THREE.Group();
@@ -56,16 +58,65 @@ const LandingScene = () => {
     const cloudMap = loader.load('/Clouds.png');
 
     const earthGeometry = new THREE.SphereGeometry(1, 64, 64);
-    const earthMaterial = new THREE.MeshStandardMaterial({
-      map: earthMap,
-      bumpMap: bumpMap,
-      bumpScale: 0.04,
-      roughnessMap: oceanMap,
-      metalnessMap: oceanMap,
-      metalness: 0.1,
-      emissiveMap: lightMap,
-      emissive: new THREE.Color(0xffffff),
+    const earthMaterial = new THREE.ShaderMaterial({
+      uniforms: {
+        map: { value: earthMap },
+        bumpMap: { value: bumpMap },
+        bumpScale: { value: 0.04 },
+        emissiveMap: { value: lightMap },
+        emissiveColor: { value: new THREE.Color(0xffffff) },
+        oceanMap: { value: oceanMap },
+        lightDirection: { value: directionalLight.position.clone().normalize() },
+        invertColors: { value: false },
+      },
+      vertexShader: `
+        varying vec2 vUv;
+        varying vec3 vNormal;
+        varying vec3 vPosition;
+        
+        void main() {
+          vUv = uv;
+          vNormal = normalize(normalMatrix * normal);
+          vPosition = position;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform sampler2D map;
+        uniform sampler2D bumpMap;
+        uniform sampler2D emissiveMap;
+        uniform sampler2D oceanMap;
+        uniform vec3 emissiveColor;
+        uniform vec3 lightDirection;
+        uniform bool invertColors;
+        varying vec2 vUv;
+        varying vec3 vNormal;
+        varying vec3 vPosition;
+
+        void main() {
+          vec3 texColor = texture2D(map, vUv).rgb;
+          vec3 bump = texture2D(bumpMap, vUv).rgb;
+          vec3 ocean = texture2D(oceanMap, vUv).rgb;
+          
+          float lightIntensity = dot(normalize(vNormal), lightDirection);
+          lightIntensity = clamp(lightIntensity, 0.1, 1.0);
+          
+          float emissive = max(dot(normalize(vNormal), -lightDirection), 0.0);
+          vec3 emissiveLight = emissive * texture2D(emissiveMap, vUv).rgb * emissiveColor * 1.75;
+
+          vec3 dayColor = texColor * lightIntensity;
+          vec3 nightColor = texColor * 0.2 + emissiveLight;
+
+          vec3 finalColor = mix(nightColor, dayColor, lightIntensity);
+          if (invertColors) {
+            vec3 invertedColor = vec3(1.0) - finalColor;
+            finalColor = mix(finalColor, invertedColor, 1.0 - ocean.r);
+          }
+          gl_FragColor = vec4(finalColor, 1.0);
+        }
+      `
     });
+    earthMaterialRef.current = earthMaterial;
     const earth = new THREE.Mesh(earthGeometry, earthMaterial);
     globeGroup.add(earth);
 
@@ -94,7 +145,7 @@ const LandingScene = () => {
 
     const animate = () => {
       requestAnimationFrame(animate);
-      controls.update();
+      // controls.update();
       earth.rotation.y += 0.0005;
       clouds.rotation.y += 0.0006;
       composer.render();
@@ -114,6 +165,9 @@ const LandingScene = () => {
     const backgroundColor = theme === 'dark' ? 0x0c0a09 : 0xffffff;
     if (rendererRef.current) {
       rendererRef.current.setClearColor(backgroundColor);
+    }
+    if (earthMaterialRef.current) {
+      earthMaterialRef.current.uniforms.invertColors.value = theme === 'light';
     }
   }, [theme]);
 

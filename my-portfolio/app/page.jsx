@@ -48,10 +48,10 @@ export default function Home() {
                     <PageTransition>
                         <LandingScene/>
                         <LandingGradient/>
-                        <div className="relative bottom-80 flex items-center justify-center pointer-events-none">
+                        <div className="absolute inset-x-0 top-40 flex items-center justify-center pointer-events-none">
                             <div className="relative flex items-center gap-20 w-100 pt-3">
                                 <h1 className="text-7xl font-bold">Kevin<br/>Kraatz</h1>
-                                <p className="text-3xl">Hello World.</p>
+                                <p className="text-5xl">Hello World.</p>
                             </div>
                         </div>
                     </PageTransition>
