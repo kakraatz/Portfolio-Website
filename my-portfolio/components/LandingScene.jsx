@@ -31,6 +31,9 @@ const LandingScene = () => {
     if (mountRef.current) {
       mountRef.current.appendChild(renderer.domElement);
     }
+
+
+
     /*
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
@@ -64,7 +67,7 @@ const LandingScene = () => {
         bumpMap: { value: bumpMap },
         bumpScale: { value: 0.04 },
         emissiveMap: { value: lightMap },
-        emissiveColor: { value: new THREE.Color(0xffffff) },
+        emissiveColor: { value: new THREE.Color(0x22C55E) },
         oceanMap: { value: oceanMap },
         lightDirection: { value: directionalLight.position.clone().normalize() },
         invertColors: { value: false },
@@ -108,10 +111,13 @@ const LandingScene = () => {
           vec3 nightColor = texColor * 0.2 + emissiveLight;
 
           vec3 finalColor = mix(nightColor, dayColor, lightIntensity);
+
           if (invertColors) {
-            vec3 invertedColor = vec3(1.0) - finalColor;
-            finalColor = mix(finalColor, invertedColor, 1.0 - ocean.r);
+            finalColor = mix(finalColor, vec3(1.0) - texColor, 1.0 - ocean.r);
           }
+
+          finalColor += emissiveLight * step(0.001, emissiveLight.r + emissiveLight.g + emissiveLight.b);
+
           gl_FragColor = vec4(finalColor, 1.0);
         }
       `
@@ -171,7 +177,7 @@ const LandingScene = () => {
     }
   }, [theme]);
 
-  return <div ref={mountRef} className={'fixed top-0 left-0 w-fit'} />;
+  return <div ref={mountRef} className={'fixed top-0 left-0 w-fit overflow-clip'} />;
 };
 
 export default LandingScene;

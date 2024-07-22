@@ -23,7 +23,7 @@ export default function ThemeSwitcher() {
 
   return (
     <button
-      className="relative flex items-center justify-center w-14 min-h-14 rounded-lg hover:bg-stone-600 hover:bg-opacity-40"
+      className="relative flex items-center justify-center w-14 min-h-14 rounded-lg lg:hover:bg-green-500 lg:hover:bg-opacity-40"
       onClick={toggleTheme}
     >
       <div className="absolute inset-0 flex items-center justify-center">

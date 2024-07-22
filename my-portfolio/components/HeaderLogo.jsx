@@ -16,7 +16,7 @@ export default function HeaderLogo() {
 
     return (
         <LogoLink href="/">
-            <button className="relative flex items-center justify-center w-14 min-h-14 rounded-lg overflow-hidden hover:bg-stone-600 hover:bg-opacity-40">
+            <button className="relative flex items-center justify-center w-14 min-h-14 rounded-lg overflow-hidden lg:hover:bg-green-500 lg:hover:bg-opacity-40">
                 <div className="absolute inset-0 flex items-center justify-center">
                     {mounted && (
                         <svg viewBox="0 0 74 78" className={`w-10 h-10 ${resolvedTheme === 'dark' ? 'fill-white' : 'fill-black'}`}>

@@ -41,7 +41,7 @@ export default function Home() {
     //                     ></video>
     // style={{ filter: theme === 'light' ? 'invert(1)' : 'none' }}
     return (
-        <div className="relative">
+        <div className="relative overflow-x-hidden">
             <section className={`relative ${theme === 'dark' ? 'bg-stone-950 text-white' : 'bg-white text-black'}`}>
                 <a id="/"/>
                 <div className="relative h-screen flex items-center justify-center">
