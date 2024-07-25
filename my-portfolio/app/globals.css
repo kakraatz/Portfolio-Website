@@ -5,6 +5,7 @@
 :root {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  --transition-duration: 0.3s;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -26,21 +27,13 @@ body {
 
 html {
   scroll-behavior: smooth;
+  transition: background-color var(--transition-duration), color var(--transition-duration);
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
-}
-
-@keyframes waves {
-  0% { background-position: 0 0; }
-  100% { background-position: 1000px 0; }
-}
-
-.animate-waves {
-  animation: waves 10s linear infinite;
 }
 
 button {

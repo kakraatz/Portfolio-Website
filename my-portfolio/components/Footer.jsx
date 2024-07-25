@@ -12,9 +12,11 @@ export default function Header() {
         }, []);
 
     return (
-        <div className="bg-transparent p-4 flex flex-col items-center">
-            <div className="relative w-full flex flex-col items-center">
-                <div>// &copy; {new Date().getFullYear()} Kevin Kraatz.</div>
+        <div className="bg-transparent p-4 flex">
+            <div className="relative flex w-100 items-center">
+                <p><span className="text-green-500">&copy; {new Date().getFullYear()} </span>
+                 Kevin Kraatz.
+                </p>
             </div>
         </div>
     );

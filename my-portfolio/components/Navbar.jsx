@@ -6,19 +6,22 @@ import { motion } from 'framer-motion';
 import {useEffect, useState} from "react";
 
 const lineVariants = {
-  openUp: { height: '30%', transition: { duration: 0.3 } },
+  openUp: { height: '8px', transition: { duration: 0.3 } },
   closedDown: { height: '0%', transition: { duration: 0.3 } },
-  openRight: { width: '10%', transition: { duration: 0.3 } },
-  closedLeft: { height: '0%', transition: { duration: 0.3 } },
+  openRight: { width: '8px', transition: { duration: 0.3 } },
+  closedLeft: { width: '0%', transition: { duration: 0.3 } },
 };
 
-export default function Navbar({ isOpen }) {
+export default function Navbar({ isOpen, activeLink, setActiveLink }) {
     const [mounted, setMounted] = useState(false);
-    const [activeLink, setActiveLink] = useState(null);
 
     useEffect(() => {
         setMounted(true);
     }, [])
+
+    useEffect(() => {
+        console.log("Active link changed:", activeLink);
+    }, [activeLink]);
 
     if(!mounted) {
         return null;
@@ -44,54 +47,54 @@ export default function Navbar({ isOpen }) {
                         }
                     }
                 }}>
-                <motion.li className="relative flex justify-center w-full" onClick={() => setActiveLink('projects')}>
+                <motion.li className="relative flex justify-center" onClick={() => setActiveLink('projects')}>
                     <NavLink href="#projects" id="projects" className="hover:text-green-500">
                         Projects
                     </NavLink>
                     <motion.span
-                        className="absolute left-0 bottom-0 w-0.5 bg-green-500"
+                        className="absolute left-[-6px] bottom-0 w-0.5 bg-green-500"
                         variants={lineVariants}
                         initial="closedDown"
                         animate={activeLink === 'projects' ? 'openUp' : 'closedDown'}
                     />
                     <motion.span
-                        className="absolute left-0 bottom-0 h-0.5 bg-green-500"
+                        className="absolute left-[-6px] bottom-0 h-0.5 bg-green-500"
                         variants={lineVariants}
-                        initial="closedRight"
+                        initial="closedLeft"
                         animate={activeLink === 'projects' ? 'openRight' : 'closedLeft'}
                     />
                 </motion.li>
-                <motion.li className="relative flex justify-center w-full mb-4" onClick={() => setActiveLink('about')}>
+                <motion.li className="relative flex justify-center" onClick={() => setActiveLink('about')}>
                     <NavLink href="#about" id="about" className="hover:text-green-500">
                         About
                     </NavLink>
                     <motion.span
-                        className="absolute left-0 bottom-0 w-0.5 bg-green-500"
+                        className="absolute left-[-6px] bottom-0 w-0.5 bg-green-500"
                         variants={lineVariants}
                         initial="closedDown"
                         animate={activeLink === 'about' ? 'openUp' : 'closedDown'}
                     />
                     <motion.span
-                        className="absolute left-0 bottom-0 h-0.5 bg-green-500"
+                        className="absolute left-[-6px] bottom-0 h-0.5 bg-green-500"
                         variants={lineVariants}
-                        initial="closedRight"
+                        initial="closedLeft"
                         animate={activeLink === 'about' ? 'openRight' : 'closedLeft'}
                     />
                 </motion.li>
-                <motion.li className="relative flex justify-center w-full" onClick={() => setActiveLink('contact')}>
+                <motion.li className="relative flex justify-center" onClick={() => setActiveLink('contact')}>
                     <a href="mailto:hello@kevinkraatz.com" className="hover:text-green-500">
                         Contact
                     </a>
                     <motion.span
-                        className="absolute left-0 bottom-0 w-0.5 bg-green-500"
+                        className="absolute left-[-6px] bottom-0 w-0.5 bg-green-500"
                         variants={lineVariants}
                         initial="closedDown"
                         animate={activeLink === 'contact' ? 'openUp' : 'closedDown'}
                     />
                     <motion.span
-                        className="absolute left-0 bottom-0 h-0.5 bg-green-500"
+                        className="absolute left-[-6px] bottom-0 h-0.5 bg-green-500"
                         variants={lineVariants}
-                        initial="closedRight"
+                        initial="closedLeft"
                         animate={activeLink === 'contact' ? 'openRight' : 'closedLeft'}
                     />
                 </motion.li>

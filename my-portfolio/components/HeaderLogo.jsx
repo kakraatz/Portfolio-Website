@@ -2,20 +2,22 @@
 
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
+import { usePathname } from 'next/navigation';
 import Link from "next/link";
-import LinkChanger from "./LinkChanger";
-import LogoLink from "./LogoLink";
 
-export default function HeaderLogo() {
+export default function HeaderLogo({ onClick }) {
     const { theme, resolvedTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
+    const pathname = usePathname();
 
     useEffect(() => {
         setMounted(true);
     }, []);
 
+    const pickHref = pathname === "/" ? `#/` : `/`;
+
     return (
-        <LogoLink href="/">
+        <Link onClick={onClick} href={pickHref}>
             <button className="relative flex items-center justify-center w-14 min-h-14 rounded-lg overflow-hidden lg:hover:bg-green-500 lg:hover:bg-opacity-40">
                 <div className="absolute inset-0 flex items-center justify-center">
                     {mounted && (
@@ -26,6 +28,6 @@ export default function HeaderLogo() {
                     )}
                 </div>
             </button>
-        </LogoLink>
+        </Link>
     );
 }

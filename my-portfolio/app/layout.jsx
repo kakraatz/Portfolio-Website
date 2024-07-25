@@ -26,14 +26,14 @@ export default function RootLayout({children}) {
         <html lang="en" className={rale.className} suppressHydrationWarning>
           <body>
             <NextThemesProvider disableTransitionOnChange>
-                <div className="flex text-foreground">
+                <div className="relative flex w-full text-foreground">
                     <header className="fixed left-16 top-16 z-50 bg-transparent">
                         <Header/>
                     </header>
                     <main className="flex-1">
                         {children}
                     </main>
-                    <footer className="fixed left-16 bottom-32 z-50 bg-transparent text-center text-sm -rotate-90">
+                    <footer className="fixed left-14 bottom-32 z-50 bg-transparent text-center text-sm -rotate-90">
                         <Footer/>
                     </footer>
                 </div>

@@ -1,25 +1,41 @@
-import React, { useEffect, useRef } from 'react';
+import React, {useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
-import { useTheme } from 'next-themes';
+import {EffectComposer} from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass.js';
+import {useTheme} from 'next-themes';
 
-const LandingScene = () => {
-  const mountRef = useRef(null);
+const LandingScene = ({ onLoad }) => {
   const { theme } = useTheme();
+  const mountRef = useRef(null);
   const sceneRef = useRef(null);
   const rendererRef = useRef(null);
   const composerRef = useRef(null);
   const earthMaterialRef = useRef(null);
+  const managerRef = useRef(new THREE.LoadingManager());
 
   useEffect(() => {
     const scene = new THREE.Scene();
     sceneRef.current = scene;
+
+    const manager = managerRef.current;
+    manager.onStart = () => {
+      console.log('Loading started');
+    };
+    manager.onProgress = (url, itemsLoaded, itemsTotal) => {
+      console.log(`Loading file: ${url}. Loaded ${itemsLoaded} of ${itemsTotal} files.`);
+    };
+    manager.onLoad = () => {
+      console.log('Loading complete');
+      if (onLoad) onLoad();
+    };
+    manager.onError = (url) => {
+      console.error(`There was an error loading ${url}`);
+    };
+
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 1.5;
-    camera.position.y = 0.8;
+    camera.position.z = 3;
+    camera.position.y = 5;
+    const targetPosition = { z: 1.5, y: 0.8 };
     camera.lookAt(0, 0.5, 0);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -32,15 +48,7 @@ const LandingScene = () => {
       mountRef.current.appendChild(renderer.domElement);
     }
 
-
-
-    /*
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.5;
-    controls.enableZoom = false;
-    controls.rotateSpeed = 0.3;
-    */
+    const loader = new THREE.TextureLoader(manager);
 
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.01);
     scene.add(ambientLight);
@@ -53,7 +61,6 @@ const LandingScene = () => {
     globeGroup.rotation.z = 23.4 * Math.PI / 180;
     scene.add(globeGroup);
 
-    const loader = new THREE.TextureLoader();
     const bumpMap = loader.load('/Bump.jpg');
     const earthMap = loader.load('/AlbedoGrayscale.jpg');
     const lightMap = loader.load('/night_lights_modified.png');
@@ -151,6 +158,9 @@ const LandingScene = () => {
 
     const animate = () => {
       requestAnimationFrame(animate);
+      camera.position.z += (targetPosition.z - camera.position.z) * 0.03;
+      camera.position.y += (targetPosition.y - camera.position.y) * 0.03;
+      camera.lookAt(0, 0.5, 0);
       // controls.update();
       earth.rotation.y += 0.0005;
       clouds.rotation.y += 0.0006;
@@ -177,7 +187,7 @@ const LandingScene = () => {
     }
   }, [theme]);
 
-  return <div ref={mountRef} className={'fixed top-0 left-0 w-fit overflow-clip'} />;
+  return <div ref={mountRef} className={'fixed top-0 left-0 w-fit overflow-hidden'}/>;
 };
 
 export default LandingScene;
