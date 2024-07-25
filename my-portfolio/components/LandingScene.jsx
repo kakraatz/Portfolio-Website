@@ -1,8 +1,9 @@
-import React, {useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import {EffectComposer} from 'three/examples/jsm/postprocessing/EffectComposer.js';
-import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass.js';
-import {useTheme} from 'next-themes';
+import { motion } from 'framer-motion';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { useTheme } from 'next-themes';
 
 const LandingScene = ({ onLoad }) => {
   const { theme } = useTheme();
@@ -18,24 +19,17 @@ const LandingScene = ({ onLoad }) => {
     sceneRef.current = scene;
 
     const manager = managerRef.current;
-    manager.onStart = () => {
-      console.log('Loading started');
-    };
-    manager.onProgress = (url, itemsLoaded, itemsTotal) => {
-      console.log(`Loading file: ${url}. Loaded ${itemsLoaded} of ${itemsTotal} files.`);
-    };
+    manager.onStart = () => console.log('Loading started');
+    manager.onProgress = (url, itemsLoaded, itemsTotal) => console.log(`Loading file: ${url}. Loaded ${itemsLoaded} of ${itemsTotal} files.`);
     manager.onLoad = () => {
       console.log('Loading complete');
       if (onLoad) onLoad();
+      animate();
     };
-    manager.onError = (url) => {
-      console.error(`There was an error loading ${url}`);
-    };
+    manager.onError = (url) => console.error(`There was an error loading ${url}`);
 
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 3;
-    camera.position.y = 5;
-    const targetPosition = { z: 1.5, y: 0.8 };
+    camera.position.set(0, 5, 3);
     camera.lookAt(0, 0.5, 0);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -49,7 +43,6 @@ const LandingScene = ({ onLoad }) => {
     }
 
     const loader = new THREE.TextureLoader(manager);
-
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.01);
     scene.add(ambientLight);
 
@@ -58,8 +51,6 @@ const LandingScene = ({ onLoad }) => {
     scene.add(directionalLight);
 
     const globeGroup = new THREE.Group();
-    globeGroup.rotation.z = 23.4 * Math.PI / 180;
-    scene.add(globeGroup);
 
     const bumpMap = loader.load('/Bump.jpg');
     const earthMap = loader.load('/AlbedoGrayscale.jpg');
@@ -142,6 +133,9 @@ const LandingScene = ({ onLoad }) => {
     const clouds = new THREE.Mesh(cloudGeometry, cloudMaterial);
     globeGroup.add(clouds);
 
+    globeGroup.rotation.z = 23.4 * Math.PI / 180;
+    scene.add(globeGroup);
+
     const composer = new EffectComposer(renderer);
     const renderPass = new RenderPass(scene, camera);
     composer.addPass(renderPass);
@@ -158,16 +152,12 @@ const LandingScene = ({ onLoad }) => {
 
     const animate = () => {
       requestAnimationFrame(animate);
-      camera.position.z += (targetPosition.z - camera.position.z) * 0.03;
-      camera.position.y += (targetPosition.y - camera.position.y) * 0.03;
+      camera.position.lerp(new THREE.Vector3(0, 0.8, 1.5), 0.01);
       camera.lookAt(0, 0.5, 0);
-      // controls.update();
       earth.rotation.y += 0.0005;
       clouds.rotation.y += 0.0006;
       composer.render();
     };
-
-    animate();
 
     return () => {
       window.removeEventListener('resize', onWindowResize);
@@ -187,7 +177,14 @@ const LandingScene = ({ onLoad }) => {
     }
   }, [theme]);
 
-  return <div ref={mountRef} className={'fixed top-0 left-0 w-fit overflow-hidden'}/>;
+  return (
+      <motion.div
+        initial={{opacity: 0}}
+        animate={{opacity: 1, transition: { delay: 2, duration: 5 }}}
+      >
+          <div ref={mountRef} className="fixed top-0 left-0 w-fit overflow-hidden"/>
+      </motion.div>
+  )
 };
 
 export default LandingScene;

@@ -1,8 +1,6 @@
 import { motion } from "framer-motion";
-import { useTheme } from "next-themes";
 
 export default function PageTransition({ children }) {
-    const { theme } = useTheme();
 
     const variants = {
         initial: { opacity: 0 },

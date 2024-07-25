@@ -33,7 +33,7 @@ export default function ThemeSwitcher() {
           onClick={toggleTheme}
       >
         <motion.div
-            key={theme} // Ensures re-rendering on theme change
+            key={theme}
             variants={iconVariants}
             initial="hidden"
             animate="visible"

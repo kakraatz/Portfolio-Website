@@ -1,45 +1,28 @@
 'use client';
 
 import { useTheme } from 'next-themes';
-import {lazy, Suspense, useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import LandingGradient from "@/components/LandingGradient";
 import PageTransition from "@/components/PageTransition"
-//import LandingScene from "@/components/LandingScene";
+import LandingScene from "@/components/LandingScene";
 import Loader from "@/components/Loader";
-
-const LandingScene = lazy(() => import("@/components/LandingScene"));
 
 export default function Home() {
     const { theme } = useTheme();
     const [mounted, setMounted] = useState(false);
     const [loaded, setLoaded] = useState(false);
-    //const [sceneLoaded, setSceneLoaded] = useState(false);
 
     useEffect(() => {
         setMounted(true);
     }, []);
 
-    //useEffect(() => {
-    //    if (mounted && sceneLoaded) {
-    //        setLoading(false);
-    //    }
-    //}, [mounted, sceneLoaded]);
-
-    useEffect(() => {
-        if (mounted) {
-            document.documentElement.classList.add(theme);
-            document.documentElement.classList.remove(theme === 'dark' ? 'light' : 'dark');
-        }
-    }, [theme]);
-
-    //if (!mounted && !loaded) {
-    //    return <Loader id="loading"/>;
-    //}
+    if (!mounted && !loaded) {
+        return <Loader loaded={loaded}/>;
+    }
 
     return (
         <div className="relative overflow-x-hidden">
-            <Suspense fallback={<Loader id="loading"/>}>
             <section className={`relative transition-colors duration-500 ease-in-out bg-background`}>
                 <a id="/"/>
                 <div className="relative h-screen flex items-center justify-center">
@@ -55,7 +38,7 @@ export default function Home() {
                             className="absolute flex top-[-80px] w-full h-0.5 bg-green-500"
                             initial={{ scaleX: 0 }}
                             animate={{ scaleX: 0.75 }}
-                            transition={{ duration: 1, delay: 4, ease: "easeOut" }}
+                            transition={{ duration: 1, delay: 3, ease: "easeOut" }}
                             style={{ transformOrigin: 'center' }}
                             />
                         </div>
@@ -72,7 +55,6 @@ export default function Home() {
                 <div className="relative h-screen z-1 flex items-center justify-center">
                 </div>
             </section>
-            </Suspense>
         </div>
     );
 }
