@@ -13,7 +13,7 @@ export default function Loader({loaded}) {
 
     return (
         <motion.div
-            className="flex items-center justify-center h-screen"
+            className="relative flex items-center justify-center h-screen"
             initial={{opacity: 1}}
             animate={{opacity: loaded ? 0 : 1, transition: { duration: 1.5 }}}
         >

@@ -19,16 +19,12 @@ export default function Navbar({ isOpen, activeLink, setActiveLink }) {
         setMounted(true);
     }, [])
 
-    useEffect(() => {
-        console.log("Active link changed:", activeLink);
-    }, [activeLink]);
-
     if(!mounted) {
         return null;
     }
 
     return (
-        <motion.nav className="bg-transparent p-4" initial={false} animate={isOpen ? "open" : "closed"}>
+        <motion.nav className="bg-transparent pt-4" initial={false} animate={isOpen ? "open" : "closed"}>
             <motion.ul
                 className="flex flex-col items-center space-y-4 rounded-lg overflow-hidden relative"
                 variants={{
@@ -47,7 +43,7 @@ export default function Navbar({ isOpen, activeLink, setActiveLink }) {
                         }
                     }
                 }}>
-                <motion.li className="relative flex justify-center" onClick={() => setActiveLink('projects')}>
+                <motion.li className="relative flex justify-center">
                     <NavLink href="#projects" id="projects" className="hover:text-green-500">
                         Projects
                     </NavLink>
@@ -64,7 +60,7 @@ export default function Navbar({ isOpen, activeLink, setActiveLink }) {
                         animate={activeLink === 'projects' ? 'openRight' : 'closedLeft'}
                     />
                 </motion.li>
-                <motion.li className="relative flex justify-center" onClick={() => setActiveLink('about')}>
+                <motion.li className="relative flex justify-center">
                     <NavLink href="#about" id="about" className="hover:text-green-500">
                         About
                     </NavLink>

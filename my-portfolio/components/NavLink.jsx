@@ -8,6 +8,8 @@ export default function NavLink({ href, id, children, ...props }) {
 
     const pickRoute = pathname === "/" ? `${href}` : `/${href}` ;
 
+
+
     return (
         <Link href={pickRoute} {...props}>
             {children}

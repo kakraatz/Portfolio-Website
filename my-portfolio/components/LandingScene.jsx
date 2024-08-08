@@ -57,6 +57,7 @@ const LandingScene = ({ onLoad }) => {
     const lightMap = loader.load('/night_lights_modified.png');
     const oceanMap = loader.load('/Ocean.png');
     const cloudMap = loader.load('/Clouds.png');
+    const starMap = loader.load('/star.png');
 
     const earthGeometry = new THREE.SphereGeometry(1, 64, 64);
     const earthMaterial = new THREE.ShaderMaterial({
@@ -136,6 +137,39 @@ const LandingScene = ({ onLoad }) => {
     globeGroup.rotation.z = 23.4 * Math.PI / 180;
     scene.add(globeGroup);
 
+    const starGeometry = new THREE.BufferGeometry();
+    const starCount = 5000;
+    const positionArray = new Float32Array(starCount * 3);
+
+    for (let i = 0; i < starCount; i++) {
+      let x, y, z, distance;
+
+      do {
+        x = THREE.MathUtils.randFloatSpread(2);
+        y = THREE.MathUtils.randFloatSpread(2);
+        z = THREE.MathUtils.randFloatSpread(2);
+        distance = Math.sqrt(x * x + y * y + z * z);
+      } while (distance < 0.5);
+
+      const scale = THREE.MathUtils.randFloat(3, 10) / distance;
+
+      positionArray[i * 3] = x * scale;
+      positionArray[i * 3 + 1] = y * scale;
+      positionArray[i * 3 + 2] = z * scale;
+    }
+
+    starGeometry.setAttribute('position', new THREE.BufferAttribute(positionArray, 3));
+
+    const starMaterial = new THREE.PointsMaterial({
+      map: starMap,
+      color: 'white',
+      size: 0.015,
+      blending: THREE.AdditiveBlending,
+    });
+
+    const stars = new THREE.Points(starGeometry, starMaterial);
+    scene.add(stars);
+
     const composer = new EffectComposer(renderer);
     const renderPass = new RenderPass(scene, camera);
     composer.addPass(renderPass);
@@ -148,7 +182,15 @@ const LandingScene = ({ onLoad }) => {
       composer.setSize(window.innerWidth, window.innerHeight);
     };
 
+    let mouseX = 0;
+    let mouseY = 0;
+    const onMouseMove = (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    }
+
     window.addEventListener('resize', onWindowResize);
+    window.addEventListener('mousemove', onMouseMove);
 
     const animate = () => {
       requestAnimationFrame(animate);
@@ -156,6 +198,11 @@ const LandingScene = ({ onLoad }) => {
       camera.lookAt(0, 0.5, 0);
       earth.rotation.y += 0.0005;
       clouds.rotation.y += 0.0006;
+      stars.rotation.y += 0.000006;
+      //if (mouseX > 0 || mouseY > 0) {
+      //  stars.rotation.x = -mouseY * 0.0001;
+      //  stars.rotation.y = -mouseX * 0.0001;
+      //}
       composer.render();
     };
 
@@ -180,7 +227,7 @@ const LandingScene = ({ onLoad }) => {
   return (
       <motion.div
         initial={{opacity: 0}}
-        animate={{opacity: 1, transition: { delay: 2, duration: 5 }}}
+        animate={{opacity: 1, transition: { delay: 2, duration: 3 }}}
       >
           <div ref={mountRef} className="fixed top-0 left-0 w-fit overflow-hidden"/>
       </motion.div>

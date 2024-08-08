@@ -15,7 +15,7 @@ export default function NavbarExpander({ onClick, isOpen }) {
     return (
         <button
             onClick={onClick}
-            className="relative flex items-center justify-center w-14 min-h-14 mt-4 rounded-lg overflow-hidden transition-colors duration-300 ease-in-out lg:hover:bg-green-500 lg:hover:bg-opacity-40"
+            className="relative flex items-center justify-center w-14 min-h-14 xl:mt-4 rounded-lg overflow-hidden transition-colors duration-300 ease-in-out lg:hover:bg-green-500 lg:hover:bg-opacity-40"
         >
             {mounted && (
                 <div className="absolute flex items-center justify-center">

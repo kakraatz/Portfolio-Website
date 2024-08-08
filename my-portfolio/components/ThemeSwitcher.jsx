@@ -4,6 +4,7 @@ import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import ModeNightOutlinedIcon from '@mui/icons-material/ModeNightOutlined';
+import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 
 const iconVariants = {
@@ -44,7 +45,7 @@ export default function ThemeSwitcher() {
           {theme === 'dark' ? (
               <LightModeOutlinedIcon style={{ fontSize: 36, color: 'white' }}/>
           ) : (
-              <ModeNightOutlinedIcon style={{ fontSize: 36, color: 'black' }}/>
+              <DarkModeOutlinedIcon style={{ fontSize: 36, color: 'black' }}/>
           )}
         </motion.div>
       </button>
