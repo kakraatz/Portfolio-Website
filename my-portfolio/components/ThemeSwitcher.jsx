@@ -3,7 +3,6 @@
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import ModeNightOutlinedIcon from '@mui/icons-material/ModeNightOutlined';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 

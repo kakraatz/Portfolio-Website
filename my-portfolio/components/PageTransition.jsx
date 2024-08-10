@@ -4,7 +4,7 @@ export default function PageTransition({ children }) {
 
     const variants = {
         initial: { opacity: 0 },
-        enter: { opacity: 1, transition: { duration: 1.5, delay: 0.75 } },
+        enter: { opacity: 1, transition: { duration: 1.5, delay: 2 } },
         exit: { opacity: 0, transition: { duration: 1.5 } },
     };
 

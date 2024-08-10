@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import ProjectCards from './ProjectCards';
 import ProjectModal from './ProjectModal';
+import { useTheme } from 'next-themes';
 
 const projects = [
   {
@@ -57,6 +58,7 @@ const projects = [
 ];
 
 export default function Projects() {
+  const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
 

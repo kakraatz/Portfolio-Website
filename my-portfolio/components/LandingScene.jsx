@@ -19,14 +19,10 @@ const LandingScene = ({ onLoad }) => {
     sceneRef.current = scene;
 
     const manager = managerRef.current;
-    manager.onStart = () => console.log('Loading started');
-    manager.onProgress = (url, itemsLoaded, itemsTotal) => console.log(`Loading file: ${url}. Loaded ${itemsLoaded} of ${itemsTotal} files.`);
     manager.onLoad = () => {
-      console.log('Loading complete');
       if (onLoad) onLoad();
       animate();
     };
-    manager.onError = (url) => console.error(`There was an error loading ${url}`);
 
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0, 5, 3);
@@ -43,6 +39,7 @@ const LandingScene = ({ onLoad }) => {
     }
 
     const loader = new THREE.TextureLoader(manager);
+
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.01);
     scene.add(ambientLight);
 
@@ -170,6 +167,7 @@ const LandingScene = ({ onLoad }) => {
     const stars = new THREE.Points(starGeometry, starMaterial);
     scene.add(stars);
 
+    renderer.compile(scene, camera);
     const composer = new EffectComposer(renderer);
     const renderPass = new RenderPass(scene, camera);
     composer.addPass(renderPass);
@@ -182,15 +180,7 @@ const LandingScene = ({ onLoad }) => {
       composer.setSize(window.innerWidth, window.innerHeight);
     };
 
-    let mouseX = 0;
-    let mouseY = 0;
-    const onMouseMove = (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    }
-
     window.addEventListener('resize', onWindowResize);
-    window.addEventListener('mousemove', onMouseMove);
 
     const animate = () => {
       requestAnimationFrame(animate);
@@ -199,20 +189,16 @@ const LandingScene = ({ onLoad }) => {
       earth.rotation.y += 0.0005;
       clouds.rotation.y += 0.0006;
       stars.rotation.y += 0.000006;
-      //if (mouseX > 0 || mouseY > 0) {
-      //  stars.rotation.x = -mouseY * 0.0001;
-      //  stars.rotation.y = -mouseX * 0.0001;
-      //}
       composer.render();
     };
 
     return () => {
       window.removeEventListener('resize', onWindowResize);
-      if (mountRef.current) {
+      if (mountRef.current && mountRef.current.contains(renderer.domElement)) {
         mountRef.current.removeChild(renderer.domElement);
       }
     };
-  }, []);
+  }, [onLoad]);
 
   useEffect(() => {
     const backgroundColor = theme === 'dark' ? 0x0c0a09 : 0xffffff;
