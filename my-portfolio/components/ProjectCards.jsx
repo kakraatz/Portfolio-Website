@@ -9,7 +9,7 @@ export default function ProjectCards({ project, onOpen }) {
       className="relative rounded-2xl"
       onClick={() => onOpen(project)}
     >
-      <div className="relative bg-transparent rounded-2xl cursor-pointer overflow-hidden group shadow-md shadow-stone-600">
+      <div className="relative bg-transparent rounded-2xl cursor-pointer overflow-hidden group border-1 border-stone-600 shadow-md shadow-stone-600">
         <div
           className="relative overflow-hidden z-10 transform transition-transform duration-150 ease-in-out group-hover:scale-50 origin-top-left"
           style={{ width: '100%', paddingBottom: '100%', position: 'relative' }}
@@ -40,8 +40,8 @@ export default function ProjectCards({ project, onOpen }) {
           </div>
         </div>
       </div>
-      <div className="pt-4 pb-4 pl-8 rounded-2xl">
-        <h1 className="text-xl md:text-3xl">{project.title}</h1>
+      <div className="pt-4 pl-2 md:pl-8 pr-2 md:pr-8 rounded-2xl">
+        <h1 className="text-md md:text-xl xl:text-3xl">{project.title}</h1>
       </div>
     </div>
   );

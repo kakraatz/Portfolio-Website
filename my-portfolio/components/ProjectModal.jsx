@@ -19,24 +19,24 @@ export default function ProjectModal({ project, onClose }) {
       exit={{ opacity: 0 }}
       onClick={handleBackgroundClick}
     >
-      <div className="p-8 rounded shadow-lg h-3/5 w-3/5 bg-background text-foreground">
+      <div className="p-8 rounded shadow-lg h-4/5 w-4/5 bg-background text-foreground">
         <div className="relative flex justify-between">
-          <div className="relative flex gap-x-10 items-center">
-            <h2 className="text-4xl font-bold">{project.title}</h2>
+          <div className="relative flex-col items-start">
             <button
-              className="border-2 border-green-500 w-10 h-10 flex items-center justify-center"
+                className="outline outline-2 outline-foreground hover:outline-green-500 outline-offset-4 w-6 h-6 flex items-center justify-center group"
             >
               <Link href={project.link} target='_blank' rel="noreferrer">
-                <OpenInNewIcon className="text-green-500"/>
+                <OpenInNewIcon className="text-foreground"/>
               </Link>
             </button>
+            <h2 className="text-2xl md:text-4xl font-bold mt-10">{project.title}</h2>
           </div>
           <div className="items-end">
             <button
-              className="border-2 border-green-500 w-10 h-10 flex items-center justify-center"
+                className="outline outline-2 outline-foreground hover:outline-green-500 outline-offset-4 w-6 h-6 flex items-center justify-center group"
               onClick={onClose}
             >
-              <CloseIcon className="text-green-500"/>
+              <CloseIcon className="text-foreground"/>
             </button>
           </div>
         </div>
