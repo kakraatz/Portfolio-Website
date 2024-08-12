@@ -9,7 +9,7 @@ export default function ProjectCards({ project, onOpen }) {
       className="relative rounded-2xl"
       onClick={() => onOpen(project)}
     >
-      <div className="relative bg-transparent rounded-2xl cursor-pointer overflow-hidden group border-1 border-stone-600 shadow-md shadow-stone-600">
+      <div className="relative bg-transparent rounded-2xl cursor-pointer overflow-hidden group ring-2 ring-stone-600 shadow-md shadow-stone-600">
         <div
           className="relative overflow-hidden z-10 transform transition-transform duration-150 ease-in-out group-hover:scale-50 origin-top-left"
           style={{ width: '100%', paddingBottom: '100%', position: 'relative' }}

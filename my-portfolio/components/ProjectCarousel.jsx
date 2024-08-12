@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ProjectCards from './ProjectCards';
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
@@ -49,9 +49,11 @@ const projects = [
   },
 ];
 
-export default function ProjectCarousel({ selectedProject, setSelectedProject }) {
+export default function ProjectCarousel({  setSelectedProject }) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [projectsPerSlide, setProjectsPerSlide] = useState(1);
+  const ref = useRef(null);
+  const isInView = useInView(ref, {once: true});
 
   useEffect(() => {
     const updateProjectsPerSlide = () => {
@@ -86,7 +88,13 @@ export default function ProjectCarousel({ selectedProject, setSelectedProject })
   };
 
   return (
-      <div className="container relative flex my-0 md:my-40 mx-auto p-4 items-center justify-center gap-x-8">
+      <motion.div
+          ref={ref}
+          className="container relative flex my-0 md:my-40 mx-auto p-4 items-center justify-center gap-x-8"
+          initial={{ opacity: 0, y: 400 }}
+          animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 400 }}
+          transition={{ duration: 1, ease: "easeInOut", delay: 0.2 }}
+      >
         <button
             className="absolute flex left-0 w-8 h-full items-center justify-center bg-transparent hover:bg-green-500 hover:bg-opacity-40 p-2 rounded z-10"
             onClick={previousSlide}
@@ -104,7 +112,7 @@ export default function ProjectCarousel({ selectedProject, setSelectedProject })
                 {Array.from({ length: totalSlides }).map((_, index) => (
                     <div
                         key={index}
-                        className={`flex-shrink-0 w-full px-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8`}
+                        className={`flex-shrink-0 w-full py-2 px-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8`}
                         style={{ opacity: index === currentSlide ? '1' : '0' }}
                     >
                       {getProjectsForSlide(index).map((project) => (
@@ -127,15 +135,23 @@ export default function ProjectCarousel({ selectedProject, setSelectedProject })
           <ArrowRightIcon style={{ fontSize: 36 }}/>
         </button>
         <div className="absolute flex bottom-0 w-full items-center justify-center gap-x-4">
-          {Array.from({ length: totalSlides }).map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentSlide(index)}
-                className={`w-3 h-3 outline outline-2 outline-offset-4 rounded-full bg-foreground transition-colors ${index === currentSlide ? 'outline-green-500' : 'outline-transparent'}`}
+          {Array.from({ length: totalSlides }).map((_, dotIndex) => {
+            const dotDelay = dotIndex * 0.1;
+            return (
+              <motion.div
+                key={dotIndex}
+                initial={{ opacity: 0, y: 400 }}
+                animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 400 }}
+                transition={{ duration: 1, ease: "easeInOut", delay: dotDelay }}
               >
-              </button>
-          ))}
+                <button
+                  onClick={() => setCurrentSlide(dotIndex)}
+                  className={`w-3 h-3 outline outline-2 outline-offset-4 rounded-full bg-foreground transition-colors ${dotIndex === currentSlide ? 'outline-green-500' : 'outline-transparent'}`}
+                >
+                </button>
+              </motion.div>
+          );})}
         </div>
-      </div>
+      </motion.div>
   );
 }
