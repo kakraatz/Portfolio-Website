@@ -24,7 +24,7 @@ const projects = [
     title: 'Library Database Manager',
     description: 'Manage library books and patrons with ease.',
     technologies: ['Python', 'JavaScript', 'Flask', 'MySQL'],
-    link: 'https://github.com/kakraatz/LibInventory-Library-Database-Manager',
+    link: 'https://github.com/kakraatz/Library-Database-Manager',
   },
   {
     id: 'wasteagram',

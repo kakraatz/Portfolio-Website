@@ -1,5 +1,6 @@
 import { useTheme } from "next-themes";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function ProjectCards({ project, onOpen }) {
   const { theme } = useTheme();
@@ -7,8 +8,9 @@ export default function ProjectCards({ project, onOpen }) {
   return (
     <div
       className="relative rounded-2xl"
-      onClick={() => onOpen(project)}
+      // onClick={() => onOpen(project)}
     >
+      <Link href={project.link} target='_blank' rel="noreferrer">
       <div className="relative bg-transparent rounded-2xl cursor-pointer overflow-hidden group ring-2 ring-stone-600 shadow-md shadow-stone-600">
         <div
           className="relative overflow-hidden z-10 transform transition-transform duration-150 ease-in-out group-hover:scale-50 origin-top-left"
@@ -43,6 +45,7 @@ export default function ProjectCards({ project, onOpen }) {
       <div className="pt-4 pl-2 md:pl-8 pr-2 md:pr-8 rounded-2xl">
         <h1 className="text-md md:text-xl xl:text-3xl">{project.title}</h1>
       </div>
+      </Link>
     </div>
   );
 }

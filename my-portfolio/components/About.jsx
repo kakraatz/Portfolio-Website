@@ -11,7 +11,7 @@ export default function About() {
     const isInView = useInView(ref, {once: true});
 
     return (
-        <div ref={ref} className="container items-center my-40 mx-auto p-4 overflow-hidden">
+        <div ref={ref} className="container items-center my-40 mx-auto xl:mx-60 p-4 overflow-hidden">
             <div className="flex flex-col mb-20 gap-y-8 items-start">
                 <motion.h1
                     className="text-3xl md:text-5xl pl-8 md:pl-0 font-bold"
@@ -68,8 +68,8 @@ export default function About() {
                         animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 400 }}
                         transition={{ duration: 1, ease: "easeInOut", delay: 0.8 }}
                     >
-                        <p className="text-base md:text-lg lg:text-xl">Hi, my name is Kevin. I&apos;m a creative
-                            developer from Texas that loves to bring unique ideas to life.
+                        <p className="text-base md:text-lg lg:text-xl">Hi, my name is Kevin.<br/><br/> I&apos;m a creative
+                            developer from Texas who loves to bring unique ideas to life.
                         </p>
                     </motion.div>
                     <motion.div
