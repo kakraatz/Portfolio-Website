@@ -19,8 +19,8 @@ export default function Projects() {
     <div ref={ref} className="container mt-40 mb-40 md:mt-60 md:mb-60 mx-auto xl:mx-60 p-4">
       <motion.h1
           className="text-3xl md:text-5xl mb-20 md:mb-0 pr-8 md:pr-0 font-bold text-right"
-          initial={{ opacity: 0, y: 400 }}
-          animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 400 }}
+          initial={{ opacity: 0, y: 200 }}
+          animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 200 }}
           transition={{ duration: 1, ease: "easeInOut", delay: 0.2 }}
       >
           Projects

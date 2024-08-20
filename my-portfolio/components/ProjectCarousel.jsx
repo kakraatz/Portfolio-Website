@@ -91,8 +91,8 @@ export default function ProjectCarousel({  setSelectedProject }) {
       <motion.div
           ref={ref}
           className="container relative flex my-0 md:my-40 mx-auto p-4 items-center justify-center gap-x-8"
-          initial={{ opacity: 0, y: 400 }}
-          animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 400 }}
+          initial={{ opacity: 0, y: 225 }}
+          animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 225 }}
           transition={{ duration: 1, ease: "easeInOut", delay: 0.2 }}
       >
         <button
@@ -140,8 +140,8 @@ export default function ProjectCarousel({  setSelectedProject }) {
             return (
               <motion.div
                 key={dotIndex}
-                initial={{ opacity: 0, y: 400 }}
-                animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 400 }}
+                initial={{ opacity: 0, y: 225 }}
+                animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 225 }}
                 transition={{ duration: 1, ease: "easeInOut", delay: dotDelay }}
               >
                 <button

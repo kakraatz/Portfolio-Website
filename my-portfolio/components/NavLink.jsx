@@ -2,16 +2,14 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import Link from "next/link";
 
-export default function NavLink({ href, id, children, ...props }) {
+export default function NavLink({ href, children, ...props }) {
     const pathname = usePathname();
     const router = useRouter();
 
-    const pickRoute = pathname === "/" ? `${href}` : `/${href}` ;
-
-
+    const pickRoute = pathname === "/" ? `${href}` : `/${href}`;
 
     return (
-        <Link href={pickRoute} {...props}>
+        <Link href={href} {...props}>
             {children}
         </Link>
     )

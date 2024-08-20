@@ -1,9 +1,9 @@
 'use client';
 
 import ThemeSwitcher from '../components/ThemeSwitcher';
-import NavLink from '../components/NavLink'
 import { motion } from 'framer-motion';
 import {useEffect, useState} from "react";
+import Link from "next/link";
 
 const lineVariants = {
   openUp: { height: '8px', transition: { duration: 0.3 } },
@@ -44,9 +44,9 @@ export default function Navbar({ isOpen, activeLink, setActiveLink }) {
                     }
                 }}>
                 <motion.li className="relative flex justify-center">
-                    <NavLink href="#projects" id="projects" className="hover:text-green-500">
+                    <Link href="/#projects" className="hover:text-green-500">
                         Projects
-                    </NavLink>
+                    </Link>
                     <motion.span
                         className="absolute left-[-6px] bottom-0 w-0.5 bg-green-500"
                         variants={lineVariants}
@@ -61,9 +61,9 @@ export default function Navbar({ isOpen, activeLink, setActiveLink }) {
                     />
                 </motion.li>
                 <motion.li className="relative flex justify-center">
-                    <NavLink href="#about" id="about" className="hover:text-green-500">
+                    <Link href="/#about" className="hover:text-green-500">
                         About
-                    </NavLink>
+                    </Link>
                     <motion.span
                         className="absolute left-[-6px] bottom-0 w-0.5 bg-green-500"
                         variants={lineVariants}

@@ -13,31 +13,31 @@ export default function WordChanger({ wordList }) {
     const intervalRef = useRef(null);
     const { theme } = useTheme();
 
-  useEffect(() => {
-    const startInterval = () => {
-      intervalRef.current = setInterval(() => {
-        setIndex((prevIndex) => (prevIndex + 1) % wordList.length);
-      }, 3000);
-    };
+    useEffect(() => {
+      const startInterval = () => {
+        intervalRef.current = setInterval(() => {
+          setIndex((prevIndex) => (prevIndex + 1) % wordList.length);
+        }, 3000);
+      };
 
-    startInterval();
+      startInterval();
 
-    const handleVisibilityChange = () => {
-      if (document.hidden) {
+      const handleVisibilityChange = () => {
+        if (document.hidden) {
+          clearInterval(intervalRef.current);
+        } else {
+          setIndex((prevIndex) => (prevIndex + 1) % wordList.length);
+          startInterval();
+        }
+      };
+
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+
+      return () => {
         clearInterval(intervalRef.current);
-      } else {
-        setIndex((prevIndex) => (prevIndex + 1) % wordList.length);
-        startInterval();
-      }
-    };
-
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-
-    return () => {
-      clearInterval(intervalRef.current);
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-    };
-  }, [wordList.length]);
+        document.removeEventListener("visibilitychange", handleVisibilityChange);
+      };
+    }, [wordList.length]);
 
     return (
         <div className="relative overflow-hidden align-baseline inline-flex">

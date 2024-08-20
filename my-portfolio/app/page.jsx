@@ -48,7 +48,7 @@ export default function Home() {
     return (
         <div className="relative overflow-x-hidden">
             <section className="relative bg-background">
-                <a id="/"/>
+                <a id="home"/>
                 <div className="relative h-screen flex items-center justify-center">
                     <PageTransition>
                         <LandingScene onLoad={handleLoad} />
