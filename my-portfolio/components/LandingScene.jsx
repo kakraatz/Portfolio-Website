@@ -40,10 +40,10 @@ const LandingScene = ({ onLoad }) => {
 
     const loader = new THREE.TextureLoader(manager);
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.01);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.005);
     scene.add(ambientLight);
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 2.5);
     directionalLight.position.set(3, 0.5, -1);
     scene.add(directionalLight);
 
