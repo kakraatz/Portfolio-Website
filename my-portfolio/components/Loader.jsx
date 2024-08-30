@@ -17,7 +17,7 @@ export default function Loader({ loaded }) {
             initial={{opacity: 1}}
             animate={{opacity: loaded ? 0 : 1, transition: { duration: 1.5 }}}
         >
-            <Spinner color="success" size="lg"/>
+            <Spinner color="success" size="lg" label="Approaching Earth..."/>
         </motion.div>
     )
 }

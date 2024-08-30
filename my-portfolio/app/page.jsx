@@ -51,7 +51,7 @@ export default function Home() {
                 <a id="home"/>
                 <div className="relative h-screen flex items-center justify-center">
                     <PageTransition>
-                        <LandingScene onLoad={handleLoad} />
+                        <LandingScene onLoad={handleLoad}/>
                         <LandingGradient/>
                         <div className="absolute inset-x-0 top-40 flex items-center justify-center pointer-events-none">
                             <div className="relative flex flex-col lg:flex-row items-center gap-8 lg:gap-20 w-100 pt-3 mix-blend-difference">
