@@ -1,6 +1,6 @@
 'use client';
 
-import {useCallback, useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import LandingGradient from "@/components/LandingGradient";
 import PageTransition from "@/components/PageTransition"
@@ -9,10 +9,11 @@ import Loader from "@/components/Loader";
 import Projects from "../components/Projects";
 import About from "../components/About";
 import { useActiveLink } from '../components/ActiveLinkProvider';
+import { useStateContext } from "@/components/StateProvider";
 
 export default function Home() {
     const [mounted, setMounted] = useState(false);
-    const [loaded, setLoaded] = useState(false);
+    const { loaded, setLoaded } = useStateContext();
     const { setActiveLink } = useActiveLink();
 
     useEffect(() => {
@@ -37,21 +38,15 @@ export default function Home() {
         };
     }, [setActiveLink]);
 
-    const handleLoad = useCallback(() => {
-        setLoaded(true);
-    }, []);
-
-    if (!mounted && !loaded) {
-        return <Loader loaded={loaded}/>;
-    }
-
     return (
-        <div className="relative overflow-x-hidden">
+        <>
+        {(!loaded) && <Loader/>}
+        <div className={`relative ${loaded ? 'overflow-hidden' : 'overflow-hidden h-screen w-screen'}`}>
             <section className="relative bg-background">
                 <a id="home"/>
                 <div className="relative h-screen flex items-center justify-center">
                     <PageTransition>
-                        <LandingScene onLoad={handleLoad}/>
+                        <LandingScene setLoaded={setLoaded}/>
                         <LandingGradient/>
                         <div className="absolute inset-x-0 top-40 flex items-center justify-center pointer-events-none">
                             <div className="relative flex flex-col lg:flex-row items-center gap-8 lg:gap-20 w-100 pt-3 mix-blend-difference">
@@ -89,5 +84,6 @@ export default function Home() {
                 </div>
             </section>
         </div>
+        </>
     );
 }

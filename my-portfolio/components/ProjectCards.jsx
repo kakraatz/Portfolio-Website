@@ -1,9 +1,21 @@
+'use client';
+
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
+import {useEffect, useState} from "react";
 
 export default function ProjectCards({ project, onOpen }) {
   const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return false;
+  }
 
   return (
     <div

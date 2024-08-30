@@ -12,8 +12,10 @@ export default function WordChanger({ wordList }) {
     const [index, setIndex] = useState(0);
     const intervalRef = useRef(null);
     const { theme } = useTheme();
+    const [mounted, setMounted] = useState(false)
 
     useEffect(() => {
+      setMounted(true);
       const startInterval = () => {
         intervalRef.current = setInterval(() => {
           setIndex((prevIndex) => (prevIndex + 1) % wordList.length);
@@ -38,6 +40,10 @@ export default function WordChanger({ wordList }) {
         document.removeEventListener("visibilitychange", handleVisibilityChange);
       };
     }, [wordList.length]);
+
+    if (!mounted) {
+      return false;
+    }
 
     return (
         <div className="relative overflow-hidden align-baseline inline-flex">

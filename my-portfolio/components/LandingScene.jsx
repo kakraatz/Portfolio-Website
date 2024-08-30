@@ -5,7 +5,7 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { useTheme } from 'next-themes';
 
-const LandingScene = ({ onLoad }) => {
+const LandingScene = ({ setLoaded }) => {
   const { theme } = useTheme();
   const mountRef = useRef(null);
   const sceneRef = useRef(null);
@@ -20,7 +20,7 @@ const LandingScene = ({ onLoad }) => {
 
     const manager = managerRef.current;
     manager.onLoad = () => {
-      if (onLoad) onLoad();
+      setLoaded(true);
       animate();
     };
 
@@ -203,7 +203,7 @@ const LandingScene = ({ onLoad }) => {
         mountRef.current.removeChild(renderer.domElement);
       }
     };
-  }, [onLoad]);
+  }, [setLoaded]);
 
   useEffect(() => {
     const backgroundColor = theme === 'dark' ? 0x0c0a09 : 0xffffff;

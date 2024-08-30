@@ -5,6 +5,7 @@ import { Raleway } from "next/font/google";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { ActiveLinkProvider } from '../components/ActiveLinkProvider';
+import { StateProvider } from '../components/StateProvider';
 
 export const rale = Raleway({
     subsets: ['latin'],
@@ -30,17 +31,19 @@ export default function RootLayout({ children }) {
             <NextThemesProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
                 <NextUIProvider>
                     <ActiveLinkProvider>
-                        <div className="relative flex flex-col w-full text-foreground">
-                            <header className="static xl:fixed w-full xl:w-fit xl:left-16 xl:top-16 -mb-72 z-50 bg-transparent">
-                                <Header/>
-                            </header>
-                            <main className="flex-1">
-                                {children}
-                            </main>
-                            <footer className="static xl:fixed flex flex-row w-full xl:w-fit xl:left-9 xl:bottom-32 justify-center z-50 bg-background xl:bg-transparent text-center text-sm xl:-rotate-90">
-                                <Footer/>
-                            </footer>
-                        </div>
+                        <StateProvider>
+                            <div className="relative flex flex-col w-full text-foreground">
+                                <header className="static xl:fixed w-full xl:w-fit xl:left-16 xl:top-16 -mb-72 z-50 bg-transparent">
+                                    <Header/>
+                                </header>
+                                <main className="flex-1">
+                                    {children}
+                                </main>
+                                <footer className="static xl:fixed flex flex-row w-full xl:w-fit xl:left-9 xl:bottom-32 justify-center z-50 bg-background xl:bg-transparent text-center text-sm xl:-rotate-90">
+                                    <Footer/>
+                                </footer>
+                            </div>
+                        </StateProvider>
                     </ActiveLinkProvider>
                 </NextUIProvider>
             </NextThemesProvider>
