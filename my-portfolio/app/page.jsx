@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import LandingGradient from "@/components/LandingGradient";
-import PageTransition from "@/components/PageTransition"
 import LandingScene from "@/components/LandingScene";
 import Loader from "@/components/Loader";
 import Projects from "../components/Projects";
@@ -45,7 +44,6 @@ export default function Home() {
             <section className="relative bg-background">
                 <a id="home"/>
                 <div className="relative h-screen flex items-center justify-center">
-                    <PageTransition>
                         <LandingScene setLoaded={setLoaded}/>
                         <LandingGradient/>
                         <div className="absolute inset-x-0 top-40 flex items-center justify-center pointer-events-none">
@@ -53,22 +51,27 @@ export default function Home() {
                                 <motion.div
                                     className=""
                                     initial={{ clipPath: 'inset(0% 0% 100% 0%)', translateY: -20 }}
-                                    animate={{ clipPath: 'inset(0% 0% 0% 0%)', translateY: 0 }}
-                                    transition={{ duration: 1, delay: 4 }}
+                                    animate={{ clipPath: loaded ? 'inset(0% 0% 0% 0%)' : 'inset(0% 0% 100% 0%)', translateY: loaded ? 0 : -20 }}
+                                    transition={{ duration: 1, delay: 3 }}
                                 >
                                     <h1 className="text-5xl md:text-7xl font-bold text-white text-center lg:text-left">Kevin<br/>Kraatz</h1>
                                 </motion.div>
-                                <p className="text-3xl md:text-5xl text-center text-white">Hello World</p>
+                                <motion.p
+                                    className="text-3xl md:text-5xl text-center text-white"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: loaded ? 1 : 0 }}
+                                    transition={{ duration: 1.5, delay: 1, ease: "easeInOut" }}
+                                >Hello World
+                                </motion.p>
                             </div>
                             <motion.span
                             className="absolute flex top-[-20px] w-full h-0.5 bg-green-500"
                             initial={{ scaleX: 0 }}
-                            animate={{ scaleX: [0, 0.4, 0.4, 0] }}
-                            transition={{ duration: 3, delay: 3, ease: "easeInOut" }}
+                            animate={{ scaleX: loaded ? [0, 0.4, 0.4, 0] : 0 }}
+                            transition={{ duration: 3, delay: 2, ease: "easeInOut" }}
                             style={{ transformOrigin: 'center' }}
                             />
                         </div>
-                    </PageTransition>
                 </div>
             </section>
             <section className="relative bg-background">
