@@ -2,6 +2,7 @@
 
 import {useEffect, useState} from "react";
 import {motion} from "framer-motion";
+import {Spinner} from "@nextui-org/react";
 
 export default function Loader({ loaded }) {
     const [mounted, setMounted] = useState(false);
@@ -16,7 +17,7 @@ export default function Loader({ loaded }) {
             initial={{opacity: 1}}
             animate={{opacity: loaded ? 0 : 1, transition: { duration: 1.5 }}}
         >
-            <motion.div className="w-32 h-32 border-4 border-t-4 border-green-500 bg-gradient-to-r from-green-500 to-transparent border-solid rounded-full animate-spin"/>
+            <Spinner color="success" size="lg"/>
         </motion.div>
     )
 }

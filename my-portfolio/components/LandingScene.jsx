@@ -31,7 +31,12 @@ const LandingScene = ({ onLoad }) => {
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    const pixelRatio = Math.min(window.devicePixelRatio, 2);
+    if (window.innerWidth < 768) {
+      renderer.setPixelRatio(Math.min(pixelRatio, 1));
+    } else {
+      renderer.setPixelRatio(pixelRatio);
+    }
     rendererRef.current = renderer;
 
     if (mountRef.current) {
@@ -43,7 +48,7 @@ const LandingScene = ({ onLoad }) => {
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.005);
     scene.add(ambientLight);
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 2.5);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, window.innerWidth < 768 ? 1.5 : 2.5);
     directionalLight.position.set(3, 0.5, -1);
     scene.add(directionalLight);
 
@@ -56,7 +61,7 @@ const LandingScene = ({ onLoad }) => {
     const cloudMap = loader.load('/Clouds.png');
     const starMap = loader.load('/star.png');
 
-    const earthGeometry = new THREE.SphereGeometry(1, 64, 64);
+    const earthGeometry = new THREE.SphereGeometry(1, window.innerWidth < 768 ? 32 : 64, window.innerWidth < 768 ? 32 : 64);
     const earthMaterial = new THREE.ShaderMaterial({
       uniforms: {
         map: { value: earthMap },
@@ -122,7 +127,7 @@ const LandingScene = ({ onLoad }) => {
     const earth = new THREE.Mesh(earthGeometry, earthMaterial);
     globeGroup.add(earth);
 
-    const cloudGeometry = new THREE.SphereGeometry(1.005, 64, 64);
+    const cloudGeometry = new THREE.SphereGeometry(1.005, window.innerWidth < 768 ? 32 : 64, window.innerWidth < 768 ? 32 : 64);
     const cloudMaterial = new THREE.MeshStandardMaterial({
       alphaMap: cloudMap,
       transparent: true,
