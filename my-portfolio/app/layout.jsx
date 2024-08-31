@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
     return (
         <html lang="en" className={rale.className} suppressHydrationWarning>
           <body>
-            <NextThemesProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+            <NextThemesProvider attribute="class" defaultTheme="dark" enableSystem={true} disableTransitionOnChange>
                 <NextUIProvider>
                     <ActiveLinkProvider>
                         <StateProvider>
